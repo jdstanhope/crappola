@@ -26,7 +26,12 @@ static void emit(const char *fmt, ...) {
 
     if (output_size + len + 1 >= output_capacity) {
         output_capacity = (output_capacity == 0) ? 4096 : output_capacity * 2;
-        output = realloc(output, output_capacity);
+        char *new_output = realloc(output, output_capacity);
+        if (!new_output) {
+            fprintf(stderr, "Error: Memory allocation failed in code generator\n");
+            return;
+        }
+        output = new_output;
     }
 
     strcpy(output + output_size, buffer);

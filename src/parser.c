@@ -236,8 +236,13 @@ static ASTNode *parse_statement(void) {
 
             if (node->data.block.count >= capacity) {
                 capacity *= 2;
-                node->data.block.statements = realloc(node->data.block.statements, 
-                                                       sizeof(ASTNode*) * capacity);
+                ASTNode **new_statements = realloc(node->data.block.statements, 
+                                                    sizeof(ASTNode*) * capacity);
+                if (!new_statements) {
+                    free_ast(node);
+                    return NULL;
+                }
+                node->data.block.statements = new_statements;
             }
             node->data.block.statements[node->data.block.count++] = stmt;
         }
@@ -360,8 +365,13 @@ ASTNode *parse(Token *token_list, int count) {
 
         if (body->data.block.count >= capacity) {
             capacity *= 2;
-            body->data.block.statements = realloc(body->data.block.statements, 
-                                                   sizeof(ASTNode*) * capacity);
+            ASTNode **new_statements = realloc(body->data.block.statements, 
+                                               sizeof(ASTNode*) * capacity);
+            if (!new_statements) {
+                free_ast(body);
+                return NULL;
+            }
+            body->data.block.statements = new_statements;
         }
         body->data.block.statements[body->data.block.count++] = stmt;
     }
