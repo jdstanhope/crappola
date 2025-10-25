@@ -11,6 +11,9 @@ CMakeFiles/
 cmake_install.cmake
 Makefile
 
+# CodeQL
+_codeql_*
+
 # IDE files
 .vscode/
 .idea/
