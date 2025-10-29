@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 
     // Step 2: Preprocess
     printf("  [1/5] Preprocessing...\n");
-    char *preprocessed = preprocess(source);
+    char *preprocessed = preprocess(source, input_file);
     free(source);
     if (!preprocessed) {
         return 1;

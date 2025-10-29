@@ -42,6 +42,52 @@ Token *tokenize(const char *source, int *token_count) {
 
         if (!*ptr) break;
 
+        // Handle #line directives
+        if (*ptr == '#') {
+            const char *directive_start = ptr;
+            ptr++; // skip '#'
+            
+            // Skip whitespace after #
+            while (*ptr && isspace(*ptr) && *ptr != '\n') {
+                ptr++;
+            }
+            
+            // Check if it's a line directive
+            if (strncmp(ptr, "line", 4) == 0) {
+                ptr += 4;
+                
+                // Skip whitespace
+                while (*ptr && isspace(*ptr) && *ptr != '\n') {
+                    ptr++;
+                }
+                
+                // Read line number
+                if (isdigit(*ptr)) {
+                    int new_line = 0;
+                    while (isdigit(*ptr)) {
+                        new_line = new_line * 10 + (*ptr - '0');
+                        ptr++;
+                    }
+                    line = new_line;
+                    
+                    // Skip the rest of the line directive (including filename)
+                    while (*ptr && *ptr != '\n') {
+                        ptr++;
+                    }
+                    if (*ptr == '\n') {
+                        ptr++;
+                        // Don't increment line here since we just set it
+                    }
+                    continue;
+                }
+            }
+            
+            // If it's not a line directive, treat # as an error
+            fprintf(stderr, "Unexpected character: # at line %d\n", line);
+            free_tokens(tokens, count);
+            return NULL;
+        }
+
         // Ensure capacity
         if (count >= capacity) {
             capacity *= 2;
