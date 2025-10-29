@@ -101,7 +101,7 @@ typedef struct ASTNode {
 } ASTNode;
 
 /* Preprocessor functions */
-char *preprocess(const char *source);
+char *preprocess(const char *source, const char *filename);
 
 /* Lexer functions */
 Token *tokenize(const char *source, int *token_count);

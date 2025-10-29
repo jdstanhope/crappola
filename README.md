@@ -22,7 +22,11 @@ The compiler targets macOS (primary target) and also supports Linux for testing.
   - Comparison operators (`<`, `>`, `<=`, `>=`, `==`, `!=`)
   - Control flow (`if`/`else`, `while`)
   - Return statements
-- Preprocessor macros (`#define`)
+- Preprocessor features:
+  - Macros (`#define`)
+  - File includes (`#include`)
+  - Nested includes with cycle detection
+  - Line directives for accurate error reporting
 - x86_64 assembly generation
 - Automatic linking with system libraries
 
@@ -66,6 +70,9 @@ The `examples/` directory contains sample programs:
 - `hello.c` - Demonstrates preprocessor with `#define`
 - `variables.c` - Shows variable declarations and arithmetic
 - `arithmetic.c` - Complex arithmetic expressions
+- `include_test.c` - Demonstrates `#include` directive
+- `nested_include.c` - Shows nested includes
+- `cycle_test.c` - Demonstrates cycle detection in includes
 
 Compile and run an example:
 
@@ -109,7 +116,7 @@ As a minimal compiler, Crappola has several limitations:
 - Only supports `int` type
 - No function parameters or multiple functions
 - No arrays, pointers, or structs
-- Limited preprocessor (only `#define`, no `#include` or `#ifdef`)
+- Limited preprocessor (no `#ifdef`, `#ifndef`, etc.)
 - No optimization passes
 - Basic error reporting
 
